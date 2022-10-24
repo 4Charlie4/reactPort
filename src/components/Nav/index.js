@@ -1,24 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { capitalizeFirstLetter } from "../../utills/helpers";
 
-const Nav = () => {
-  const categories = [
-    {
-      name: "commercial",
-      description:
-        "Photos of grocery stores, food trucks, and other commercial projects",
-    },
-    { name: "portraits", description: "Portraits of people in my life" },
-    { name: "food", description: "Delicious delicacies" },
-    {
-      name: "landscape",
-      description: "Fields, farmhouses, waterfalls, and the beauty of nature",
-    },
-  ];
+const Nav = (props) => {
+  const { categories = [], setCurrentCategory, currentCategory } = props;
 
-  function categorySelected(name) {
-    console.log(`${name} clicked`);
-  }
-  //We wrapped the categorySelected in a function declaration rather than calling it because we want to avoid calling the function every time the component renders
+  useEffect(() => {
+    document.title = capitalizeFirstLetter(currentCategory.name);
+  }, [currentCategory]);
+
+  // wrapped the categorySelected in a function declaration rather than calling it because we want to avoid calling the function every time the component renders
   return (
     <header>
       <h2>
@@ -41,9 +31,18 @@ const Nav = () => {
             <span>Contact</span>
           </li>
           {categories.map((category) => (
-            <li className="mx-1" key={category.name}>
-              <span onClick={() => categorySelected(category.name)}>
-                {category.name}
+            <li
+              className={`mx-1 ${
+                currentCategory.name === category.name && "navActive"
+              }`}
+              key={category.name}
+            >
+              <span
+                onClick={() => {
+                  setCurrentCategory(category);
+                }}
+              >
+                {capitalizeFirstLetter(category.name)}
               </span>
             </li>
           ))}
