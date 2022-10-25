@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { validateEmail } from "../../utills/helpers";
 
 function ContactForm() {
   const [formState, setFormState] = useState({
@@ -7,11 +8,35 @@ function ContactForm() {
     message: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState(" ");
+
   const { name, email, message } = formState;
 
   function handleChange(e) {
+    if (e.target.name === "email") {
+      const isValid = validateEmail(e.target.value);
+
+      if (!isValid) {
+        setErrorMessage("Your Email is invalid.");
+      } else {
+        setErrorMessage("");
+      }
+
+      console.log(isValid);
+    } else {
+      if (!e.target.value.length) {
+        setErrorMessage(`${e.target.name} is required.`);
+      } else {
+        setErrorMessage("");
+      }
+    }
+
     //in e.target.name this refers to the name attribute for input
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    if (!errorMessage) {
+      setFormState({ ...formState, [e.target.name]: e.target.value });
+    }
+
+    console.log("errorMessage: ", errorMessage);
   }
 
   function handleSubmit(e) {
