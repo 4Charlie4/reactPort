@@ -1,22 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 
 function ContactForm() {
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const { name, email, message } = formState;
+
+  function handleChange(e) {
+    //in e.target.name this refers to the name attribute for input
+    setFormState({ ...formState, [e.target.name]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(formState);
+  }
+
   //With JSX we need to use htmlFor instead of for
   return (
     <section>
       <h1>Contact Me</h1>
-      <form id="contactFrom">
+      <form id="contactFrom" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name: </label>
-          <input type="text" name="name" />
+          <input
+            type="text"
+            defaultValue={name}
+            onChange={handleChange}
+            name="name"
+          />
         </div>
         <div>
           <label htmlFor="email">Email: </label>
-          <input type="email" name="email" />
+          <input
+            type="email"
+            defaultValue={email}
+            onChange={handleChange}
+            name="email"
+          />
         </div>
         <div>
           <label htmlFor="message">Message: </label>
-          <textarea name="message" rows="5" />
+          <textarea
+            name="message"
+            defaultValue={message}
+            onChange={handleChange}
+            rows="5"
+          />
         </div>
         <button type="submit">Submit</button>
       </form>
