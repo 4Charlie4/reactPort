@@ -47,14 +47,14 @@ function ContactForm() {
   //With JSX we need to use htmlFor instead of for
   return (
     <section>
-      <h1>Contact Me</h1>
+      <h1 data-testid="Contact">Contact Me</h1>
       <form id="contactFrom" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name: </label>
           <input
             type="text"
             defaultValue={name}
-            onChange={handleChange}
+            onBlur={handleChange}
             name="name"
           />
         </div>
@@ -63,7 +63,7 @@ function ContactForm() {
           <input
             type="email"
             defaultValue={email}
-            onChange={handleChange}
+            onBlur={handleChange}
             name="email"
           />
         </div>
@@ -72,11 +72,16 @@ function ContactForm() {
           <textarea
             name="message"
             defaultValue={message}
-            onChange={handleChange}
+            onBlur={handleChange}
             rows="5"
           />
         </div>
-        <button type="submit">Submit</button>
+        {errorMessage && (
+          <div>
+            <p className="error-text">{errorMessage}</p>
+          </div>
+        )}
+        <button data-testid="Button" type="submit">Submit</button>
       </form>
     </section>
   );
